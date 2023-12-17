@@ -1,11 +1,19 @@
 "use strict";
 
+// TO DO:
+// TALLY UP SCORES. GO UP BY 10 PER WIN FOR PLAYER OR CPU. IF THERES A DRAW NO ONE GETS 10PTS
+// NEW GAME AUTOMATICALLY REFRESHES SCOREBOARD
+// RESTART KEEPS CURRENT SCORES BUT REFRESHES GAMBOARD
+
 // declare our references to all the html elements!
 
 const boxes = Array.from(document.getElementsByClassName("box"));
 const gameboard = document.getElementById("gameboard");
 const restartButton = document.getElementById("restart-button");
-
+let playerScoreNum = document.getElementById("player-score-num");
+let cpuScoreNum = document.getElementById("cpu-score-num");
+let playerScore = 0;
+let cpuScore = 0;
 let playerSymbol = "X";
 let cpuSymbol = "O";
 
@@ -95,15 +103,19 @@ function executeCpuTurn() {
       : '<i class="far fa-circle"></i>';
 
   if (checkCpuWin()) {
+    cpuScore += 10;
+    cpuScoreNum.innerText = cpuScore;
     isGameOver = true;
-    alert("CPU won!");
+    setTimeout(function () {
+      alert("CPU Wins!");
+    }, 400);
     return;
   }
 
   isCpuTurn = false;
 }
 
-// this function is for when a user clicks a box in the grid, their respective choice of either X or O gets shown
+// this function is for when a user clicks a box in the grid, X get shown
 function onBoxClick(event) {
   if (isCpuTurn || isGameOver) return;
 
@@ -127,8 +139,12 @@ function onBoxClick(event) {
       : '<i class="far fa-circle"></i>';
 
   if (checkPlayerWin()) {
+    playerScore += 10;
+    playerScoreNum.innerText = playerScore;
     isGameOver = true;
-    alert("You won!");
+    setTimeout(function () {
+      alert("Congratulations, You Win!");
+    }, 400);
     return;
   }
 
@@ -136,15 +152,19 @@ function onBoxClick(event) {
   if (boxes.every((box) => box.classList.length > MAX_CLASSLIST_SIZE)) {
     console.log("All boxes are occupied!");
     isGameOver = true;
-    alert("Draw! Nobody wins.");
+    setTimeout(function () {
+      alert("Draw! Nobody wins.");
+    }, 400);
     return;
   }
 
   isCpuTurn = true;
 
-  // after our turn is complete, let the CPU do its turn (but wait 600ms first)
-  setTimeout(executeCpuTurn, 600);
+  // after our turn is complete, let the CPU do its turn (but wait 800ms first)
+  setTimeout(executeCpuTurn, 800);
 }
 
 gameboard.addEventListener("click", onBoxClick);
 restartButton.addEventListener("click", resetGame);
+
+// SCORE TALLY

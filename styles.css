@@ -471,5 +471,9 @@ td {
   font-size:40px;
 }
 
+.box:focus,
+.box:hover {
+  cursor: pointer;
+}
 
 /* FIRST ROUND SECTION END */
