@@ -369,6 +369,10 @@ td {
   height: 100vh;
 }
 
+.heading-titles a {
+  color: white;
+  text-decoration: none;
+}
 
 #restart-button {
   padding: 15px 25px;
@@ -399,10 +403,10 @@ td {
 }
 
 #restart-button h1 {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: var(--pink-text);
-  top: 20%;
-  left: 15%;
+  top: 25%;
+  left: 13%;
   font-family: "erbaum", sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -444,10 +448,10 @@ td {
 }
 
 #new-game h1 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--pink-text);
-  top: 20%;
-  left: 10%;
+  top: 25%;
+  left: 11%;
   font-family: "erbaum", sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -461,19 +465,67 @@ td {
   color: red;
 }
 
+.box {
+  position: relative;
+}
+
 .box .fa-times {
-  color:rgb(51, 255, 0);
-  font-size:50px;
+  color: var(--pink-text);
+  font-size:90px;
+  position: absolute;
+  left: 37.6%;
+  bottom: 22%;
+
 }
 
 .box .fa-circle {
-  color:rgb(255, 0, 0);
-  font-size:40px;
+  color: #00F0FF;
+  font-size:70px;
+  position: absolute;
+  left: 33%;
+  bottom: 29%;
 }
 
 .box:focus,
 .box:hover {
   cursor: pointer;
+}
+
+.player-score h1 {
+  color: var(--pink-text);
+  position: absolute; 
+  top: 20%;
+  left: 11%;
+}
+
+.cpu-score h1 {
+  color: var(--pink-text);
+  position: absolute; 
+  top: 20%;
+  left: 82%;
+}
+
+#cpu-score-num {
+  color:#00F0FF;
+  font-size: 3rem;
+  position: absolute;
+  top: 28%;
+  left: 84.5%;
+  max-width: 100%;
+}
+
+#player-score-num {
+  color:#00F0FF;
+  font-size: 3rem;
+  position: absolute;
+  top: 28%;
+  left: 13%;
+  max-width: 50%;
+}
+
+.won {
+  background-color: rgb(68, 0, 255);
+  border: yellow 2px solid;
 }
 
 /* FIRST ROUND SECTION END */

@@ -15,7 +15,7 @@
           h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
         })(document);
       </script>
-    <title>Galaxy Grid - Home</title>
+    <title>Welcome to Galaxy Grid!</title>
        
 </head>
 <body>
@@ -23,7 +23,9 @@
         <div>
             <video autoplay muted loop id="background">
                 <source defer src="media/151960 (Original).mp4" type="video/mp4">
-            </video>  
+            </video> 
+            <audio src="media/Tronicles SciFi - Free Music  [Royalty Free No Copyright].mp3" id="audio" autoplay loop>
+            </audio>
         </div>
          
         <section class="border">
@@ -49,8 +51,8 @@
                     <path d="M179 94C179 140.342 141.218 178 94.5 178C47.7819 178 10 140.342 10 94C10 47.658 47.7819 10 94.5 10C141.218 10 179 47.658 179 94Z" stroke="#FB29FF" stroke-width="20"/>
                 </svg>
 
-            <div class="enter">
-                <a href="firstround.html"><h4>Enter</h4></a>
+            <div class="enter" id="enter">
+                <a href="firstround.html" id="enter-link"><h4>Enter</h4></a>
             </div>
 
             <div class="credit">

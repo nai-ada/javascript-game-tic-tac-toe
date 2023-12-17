@@ -1,12 +1,11 @@
 "use strict";
 
 // TO DO:
-// TALLY UP SCORES. GO UP BY 10 PER WIN FOR PLAYER OR CPU. IF THERES A DRAW NO ONE GETS 10PTS
-// NEW GAME AUTOMATICALLY REFRESHES SCOREBOARD
-// RESTART KEEPS CURRENT SCORES BUT REFRESHES GAMBOARD
+// ADD SOUNDS TO BOX CLICKS, AND ALERTS
+// CHECK TO SEE WHY MUSIC DOESNT LOAD IN HOME PAGE
+// CLEAN UP CODE
 
-// declare our references to all the html elements!
-
+// variables
 const boxes = Array.from(document.getElementsByClassName("box"));
 const gameboard = document.getElementById("gameboard");
 const restartButton = document.getElementById("restart-button");
@@ -16,13 +15,10 @@ let playerScore = 0;
 let cpuScore = 0;
 let playerSymbol = "X";
 let cpuSymbol = "O";
-
 let isCpuTurn = false;
 let isGameOver = false;
-
 const MAX_CLASSLIST_SIZE = 1;
-
-// an array of arrays that contain all the possible win conditions (indexes on the board)
+// setting an array of arrays that contain all the possible win conditions on the gameboard
 const winCombinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -34,21 +30,68 @@ const winCombinations = [
   [2, 4, 6],
 ];
 
+// set home page and gameplay page music volume to 3%
+const gameMusic = document.getElementById("audio");
+gameMusic.volume = 0.03;
+
+// click audio - setting click audio to 30%
+let clickPlay = document.getElementById("click-audio");
+clickPlay.volume = 0.3;
+document
+  .getElementById("restart-button")
+  .addEventListener("click", function () {
+    clickPlay.play();
+  });
+
+// let clickNew = document.getElementById("click-audio");
+// clickNew.volume = 0.3;
+// document
+//   .getElementById("new-game-sound")
+//   .addEventListener("click", function () {
+//     clickNew.play();
+//   });
+
+// const clickBox = document.getElementById("click-audio");
+// clickBox.volume = 0.3;
+// document.getElementsByClassName("box").addEventListener("click", function () {
+//   clickBox.play();
+// });
+
 // for every combination in winCombinations array, check if each index matches our condition (if it contains the current players symbol)
 function checkPlayerWin() {
   return winCombinations.some((combination) => {
-    return combination.every((index) => {
-      return boxes[index].classList.contains(playerSymbol.toLowerCase());
-    });
+    if (
+      combination.every((index) => {
+        let box = boxes[index];
+        return box.classList.contains(playerSymbol.toLowerCase());
+      })
+    ) {
+      // If a win combination is found, add the winning class to the boxes
+      combination.forEach((index) => {
+        boxes[index].classList.add("won");
+      });
+      return true;
+    }
+    return false;
   });
 }
 
 // for every combination in winCombinations array, check if each index matches our condition (if it contains the current players symbol)
 function checkCpuWin() {
   return winCombinations.some((combination) => {
-    return combination.every((index) => {
-      return boxes[index].classList.contains(cpuSymbol.toLowerCase());
-    });
+    if (
+      combination.every((index) => {
+        let box = boxes[index];
+        return box.classList.contains(cpuSymbol.toLowerCase());
+      })
+    ) {
+      // If a win combination is found, add the winning class to the boxes
+      combination.forEach((index) => {
+        boxes[index].classList.add("won");
+      });
+      return true;
+    }
+    return false;
   });
 }
 
@@ -59,6 +102,7 @@ function resetGame() {
     box.classList.remove(playerSymbol.toLowerCase());
     box.classList.remove(cpuSymbol.toLowerCase());
     box.innerHTML = "";
+    box.classList.remove("won");
   });
 
   // reset the game state
@@ -107,7 +151,7 @@ function executeCpuTurn() {
     cpuScoreNum.innerText = cpuScore;
     isGameOver = true;
     setTimeout(function () {
-      alert("CPU Wins!");
+      alert("You lost! Click the Play Again button to start another round.");
     }, 400);
     return;
   }
@@ -143,7 +187,7 @@ function onBoxClick(event) {
     playerScoreNum.innerText = playerScore;
     isGameOver = true;
     setTimeout(function () {
-      alert("Congratulations, You Win!");
+      alert("You won! Click the Play Again button to start another round.");
     }, 400);
     return;
   }
@@ -153,7 +197,9 @@ function onBoxClick(event) {
     console.log("All boxes are occupied!");
     isGameOver = true;
     setTimeout(function () {
-      alert("Draw! Nobody wins.");
+      alert(
+        "Draw! Nobody wins. Click the Play Again button to start another round."
+      );
     }, 400);
     return;
   }
@@ -166,5 +212,3 @@ function onBoxClick(event) {
 
 gameboard.addEventListener("click", onBoxClick);
 restartButton.addEventListener("click", resetGame);
-
-// SCORE TALLY
