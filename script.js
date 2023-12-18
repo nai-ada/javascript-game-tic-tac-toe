@@ -1,10 +1,5 @@
 "use strict";
 
-// TO DO:
-// ADD SOUNDS TO BOX CLICKS, AND ALERTS
-// CHECK TO SEE WHY MUSIC DOESNT LOAD IN HOME PAGE
-// CLEAN UP CODE
-
 // variables
 const boxes = Array.from(document.getElementsByClassName("box"));
 const gameboard = document.getElementById("gameboard");
@@ -18,6 +13,7 @@ let cpuSymbol = "O";
 let isCpuTurn = false;
 let isGameOver = false;
 const MAX_CLASSLIST_SIZE = 1;
+
 // setting an array of arrays that contain all the possible win conditions on the gameboard
 const winCombinations = [
   [0, 1, 2],
@@ -43,21 +39,7 @@ document
     clickPlay.play();
   });
 
-// let clickNew = document.getElementById("click-audio");
-// clickNew.volume = 0.3;
-// document
-//   .getElementById("new-game-sound")
-//   .addEventListener("click", function () {
-//     clickNew.play();
-//   });
-
-// const clickBox = document.getElementById("click-audio");
-// clickBox.volume = 0.3;
-// document.getElementsByClassName("box").addEventListener("click", function () {
-//   clickBox.play();
-// });
-
-// for every combination in winCombinations array, check if each index matches our condition (if it contains the current players symbol)
+// for every combination in winCombinations array, checks if each index matches our condition (if it contains the current players symbol)
 function checkPlayerWin() {
   return winCombinations.some((combination) => {
     if (
@@ -66,7 +48,7 @@ function checkPlayerWin() {
         return box.classList.contains(playerSymbol.toLowerCase());
       })
     ) {
-      // If a win combination is found, add the winning class to the boxes
+      // if a win combination is found, add the winning class to the boxes (this is for styling purposes, as I wanted to add a background/border hightlight)
       combination.forEach((index) => {
         boxes[index].classList.add("won");
       });
@@ -76,7 +58,7 @@ function checkPlayerWin() {
   });
 }
 
-// for every combination in winCombinations array, check if each index matches our condition (if it contains the current players symbol)
+// same for cpu
 function checkCpuWin() {
   return winCombinations.some((combination) => {
     if (
@@ -85,7 +67,6 @@ function checkCpuWin() {
         return box.classList.contains(cpuSymbol.toLowerCase());
       })
     ) {
-      // If a win combination is found, add the winning class to the boxes
       combination.forEach((index) => {
         boxes[index].classList.add("won");
       });
@@ -95,9 +76,12 @@ function checkCpuWin() {
   });
 }
 
+// function for resetting game board using the play again button)
+gameboard.addEventListener("click", onBoxClick);
+restartButton.addEventListener("click", resetGame);
+
 function resetGame() {
-  console.log("resetting game");
-  // clear the game board
+  console.log("Resetting gameboard!");
   boxes.forEach((box) => {
     box.classList.remove(playerSymbol.toLowerCase());
     box.classList.remove(cpuSymbol.toLowerCase());
@@ -105,39 +89,23 @@ function resetGame() {
     box.classList.remove("won");
   });
 
-  // reset the game state
+  // resetting the game state
   isCpuTurn = false;
   isGameOver = false;
 }
 
-function saveChoice(symbol) {
-  if (symbol === "X") {
-    playerSymbol = "X";
-    cpuSymbol = "O";
-  } else {
-    playerSymbol = "O";
-    cpuSymbol = "X";
-  }
-
-  console.log("Player symbol: ", playerSymbol);
-  console.log("CPU symbol: ", cpuSymbol);
-}
-
+// function for AI random O placements
 function executeCpuTurn() {
   console.log("executing CPU turn!");
-
   // returns a random number from 0-8
   function getRandomBox() {
     return Math.floor(Math.random() * 9);
   }
-
   let box = null;
-
-  // get a box that isnt occupied with an X or O
+  // getting a box that isnt occupied with an X or O
   do {
     box = boxes[getRandomBox()];
   } while (box.classList.length > MAX_CLASSLIST_SIZE);
-
   console.log(`(CPU) Found unoccupied box: ${box}`);
 
   box.classList.add(cpuSymbol.toLowerCase());
@@ -146,6 +114,7 @@ function executeCpuTurn() {
       ? '<i class="fas fa-times"></i>'
       : '<i class="far fa-circle"></i>';
 
+  // score tallying and prompting a win for cpu
   if (checkCpuWin()) {
     cpuScore += 10;
     cpuScoreNum.innerText = cpuScore;
@@ -155,11 +124,10 @@ function executeCpuTurn() {
     }, 400);
     return;
   }
-
   isCpuTurn = false;
 }
 
-// this function is for when a user clicks a box in the grid, X get shown
+// when a user clicks a box in the grid, X get shown
 function onBoxClick(event) {
   if (isCpuTurn || isGameOver) return;
 
@@ -175,13 +143,13 @@ function onBoxClick(event) {
   console.log("CPU symbol: ", cpuSymbol);
 
   // adding the second attribute
-
   box.classList.add(playerSymbol.toLowerCase());
   box.innerHTML =
     playerSymbol === "X"
       ? '<i class="fas fa-times"></i>'
       : '<i class="far fa-circle"></i>';
 
+  // score tally and checking player win
   if (checkPlayerWin()) {
     playerScore += 10;
     playerScoreNum.innerText = playerScore;
@@ -192,7 +160,7 @@ function onBoxClick(event) {
     return;
   }
 
-  // check if all boxes are occupied
+  // check if all boxes are occupied - for draw
   if (boxes.every((box) => box.classList.length > MAX_CLASSLIST_SIZE)) {
     console.log("All boxes are occupied!");
     isGameOver = true;
@@ -206,9 +174,6 @@ function onBoxClick(event) {
 
   isCpuTurn = true;
 
-  // after our turn is complete, let the CPU do its turn (but wait 800ms first)
+  // after our turn is complete, let the CPU do its turn (but wait 800ms first). this is for better UI
   setTimeout(executeCpuTurn, 800);
 }
-
-gameboard.addEventListener("click", onBoxClick);
-restartButton.addEventListener("click", resetGame);
